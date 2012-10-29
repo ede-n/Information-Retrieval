@@ -1,20 +1,5 @@
 ## Echo server program
 #import socket
-#
-#HOST = ''                 # Symbolic name meaning all available interfaces
-#PORT = 50007              # Arbitrary non-privileged port
-#s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#s.bind((HOST, PORT))
-#s.listen(1)
-#conn, addr = s.accept()
-#print 'Connected by', addr
-##while 1:
-#data = conn.recv(2048)
-#print "Data",data
-##    if not data: break
-#conn.send("<html><body><h1>Hello python!!</h1></body></html>")
-#conn.close()
-
 import SocketServer,os,time
 
 
@@ -29,7 +14,7 @@ def doPickling(option,pickleFile,obj=None):
     if option == "CATALOG" :
         print "DEBUG:[Pickling] Pickling CATALOG..."
         fileSeekHash = obj 
-#        print "DEBUG:[doPickling] Before dumping to"+pickleFile+"->\n",stemmedQTList
+        print "DEBUG:[doPickling] Before dumping to"+pickleFile+"->\n",stemmedQTList
         p = Pickler(f)
         p.dump(makecataloghash())
         f.close()
@@ -84,21 +69,21 @@ def query(terms):
     html = "<html><body>{}</body></html>"
     idxhandle = open(indexFilePath,'r')
     resultStr = ""
-#    print "PROFILE:[InstancOf] TIMER STARTS"
-#    et = time.time(); ct = time.clock();
+    print "PROFILE:[InstancOf] TIMER STARTS"
+    et = time.time(); ct = time.clock();
     if not isinstance(terms,list):
         terms = [terms]
-#    print "PROFILE:[InstanceOf ElapsedTime]: %s  CPUTime: %s" %(str(time.time()-et),str(time.time()-ct))
+    print "PROFILE:[InstanceOf ElapsedTime]: %s  CPUTime: %s" %(str(time.time()-et),str(time.time()-ct))
     seekHash = getIdxSeek(terms)
     print "SeekHash",seekHash
     for term in terms:
-#        print "PROFILE:[IndexSeek] TIMER STARTS"
-#        et = time.time(); ct = time.clock();
+        print "PROFILE:[IndexSeek] TIMER STARTS"
+        et = time.time(); ct = time.clock();
         seek = seekHash[term]
-#        print "PROFILE:[IndexSeek ElapsedTime]: %s  CPUTime: %s" %(str(time.time()-et),str(time.time()-ct))
+        print "PROFILE:[IndexSeek ElapsedTime]: %s  CPUTime: %s" %(str(time.time()-et),str(time.time()-ct))
         
         if not seek == -1:
-#            print "PROFILE:[FIleOperation] TIMER STARTS"
+            print "PROFILE:[FIleOperation] TIMER STARTS"
             et = time.time(); ct = time.clock()
             idxhandle.seek(seek)
             idxline = idxhandle.readline()
@@ -111,7 +96,7 @@ def query(terms):
             else:
                 print "ERROR:--> Index seek location mismatch..."
                 exit(1)
-#            print "PROFILE:[FileOperation ElapsedTime]: %s  CPUTime: %s" %(str(time.time()-et),str(time.time()-ct))
+            print "PROFILE:[FileOperation ElapsedTime]: %s  CPUTime: %s" %(str(time.time()-et),str(time.time()-ct))
         else:
             pre = "<PRE>\n{}\n</PRE>"
             corpusHeader = "%8s    %4s\n"%("ctf","df")
